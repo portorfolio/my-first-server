@@ -1,18 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My First Server</title>
     <style>
-        /* Your CSS goes here */
+        body {
+            background-color: black;
+        }
+
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+            z-index: 9999;
+        }
     </style>
 </head>
+
 <body>
-    <!-- Your HTML goes here -->
-    
+    <div class="cursor"></div>
+
     <script>
-        // Your javascript code (optional)
+        const cursor = document.querySelector('.cursor');
+        window.addEventListener('mousemove', e => {
+            cursor.style.transform = `translate(${e.clientX}px,${e.clientY}px)`
+            if (x - radius <= 0 || x + radius >= window.innerWidth || y - radius <= 0 || y + radius >= window.innerHeight) {
+
+            }
+
+
+        })
     </script>
 </body>
+
 </html>
