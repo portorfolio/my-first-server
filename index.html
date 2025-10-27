@@ -29,35 +29,86 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script>
-        const cursor = document.querySelector('.cursor');
-        const radius = cursor.offsetWidth / 2;
         let isBouncing = false
+        const cursor = document.querySelector('.cursor')
+        const dimensions = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
+        const cursorDimensions = document.querySelector(".cursor").getBoundingClientRect();
+        const setX = gsap.quickSetter(".cursor", "x", "px")
+        const setY = gsap.quickSetter(".cursor", "y", "px")
+        const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'white']
 
-        window.addEventListener('mousemove', e => {
+        window.addEventListener("mousemove", (e) => {
             const x = e.clientX
             const y = e.clientY
-            if (!isBouncing) {
-                cursor.style.transform = `translate(${x}px, ${y}px)`;
-            }
-            if ((x - radius <= 0 || x + radius >= window.innerWidth || y - radius <= 0 || y + radius >= window.innerHeight) && !isBouncing) {
+            setX(x - cursorDimensions.width / 2)
+            setY(y - cursorDimensions.height / 2)
+
+            if ((x >= window.innerWidth - 15 || x <= 0 || y >= window.innerHeight - 15 || y <= 0) && !isBouncing) {
                 isBouncing = true
-
-                let bounceX = x
-                let bounceY = y
-                if (x - radius <= 0) bounceX += 5;
-                if (x + radius >= window.innerWidth) bounceX -= 5;
-                if (y - radius <= 0) bounceY += 5;
-                if (y + radius >= window.innerHeight) bounceY -= 5;
-
-                gsap.to(cursor, {
-                    x: bounceX, y: bounceY, duration: 0.5, ease: 'bounce.out', onComplete: () => {
-                        isBouncing = false
-                    }
+                gsap.to(".cursor", {
+                    x: window.innerWidth / 2 - cursorDimensions.width / 2,
+                    y: window.innerHeight / 2 - cursorDimensions.height / 2
+                    , ease: "back.out", duration: 1.5,
+                    onComplete: () => (isBouncing = false)
                 })
-
+                cursor.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
             }
-        }
-        )
+        })
+
+        // const dimensions = window.getBoundingClientRect()
+        // const cursor = document.querySelector('.cursor');
+        // const radius = cursor.offsetWidth / 2;
+        // let isBouncing = false
+        // const clamperX = gsap.utils.clamp(
+        //     (cursor.width - dimensions.width) / 2,
+        //     (dimensions.width - cursor.width) / 2
+        // )
+        // const clamperY = gsap.utils.clamp(
+        //     (cursor.height - dimensions.height) / 2,
+        //     (dimensions.height - cursor.height) / 2
+        // )
+        // const x = e.clientX
+        // const y = e.clientY
+
+        // window.addEventListener('mousemove', e => {
+        //     setX(clamperX(e.offset - dimensions.width / 2))
+        //     setY(clamperY(e.offsetY - dimensions.height / 2))
+        //     // if (!isBouncing) {
+        //     //     // cursor.style.transform = `translate(${x}px, ${y}px)`;
+        //     //     gsap.to('.cursor', {
+        //     //         duration: 1.5,
+        //     //         overwrite: "auto",
+        //     //         x: x,
+        //     //         y: y,
+        //     //         stagger: 0.15,
+        //     //         ease: 'power3.out',
+        //     //     });
+        //     // }
+        //     // if ((x <= 0 || x >= window.innerWidth - (radius * 2) || y <= 0 || y >= window.innerHeight - (radius * 2) && !isBouncing)) {
+        //     //     isBouncing = true
+        //     //     let bounceX = x
+        //     //     let bounceY = y
+        //     //     // if (x - radius <= 0) bounceX += 5;
+        //     //     // if (x + radius >= window.innerWidth) bounceX -= 5;
+        //     //     // if (y - radius <= 0) bounceY += 5;
+        //     //     // if (y + radius >= window.innerHeight) bounceY -= 5;
+
+        //     //     cursor.style.background = 'red'
+        //     //     gsap.to(cursor, {
+        //     //         x: '+=10', y: '+=10', duration: 0.5, ease: 'bounce.out', onComplete: () => {
+        //     //             isBouncing = false
+        //     //         }
+        //     //     })
+
+        //     // }
+        // }
+        // )
+        // window.addEventListener('mouseleave', () => {
+        //     gsap.to('.cursor', { x: x, y: y, ease: 'back.out', duration: 0.25 })
+        // })
 
     </script>
 </body>
